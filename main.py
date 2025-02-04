@@ -326,7 +326,6 @@ def generate_level(level):
             elif level[y][x] == '+':
                 Tile('wall', x, y)
             elif level[y][x] == '*':
-                print('dfghjhgfdghjkjhgvcxcfghj')
                 # Evil_Tanks(x, y)
                 new_player2 = Player_2(x, y)
             elif level[y][x] == '@':
