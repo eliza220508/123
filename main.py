@@ -32,7 +32,6 @@ class Win(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
-
 class Border(pygame.sprite.Sprite):
     # строго вертикальный или строго горизонтальный отрезок
     def __init__(self, x1, y1, x2, y2):
@@ -56,7 +55,7 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
 
-
+# для пулек
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, type_tank):
         super().__init__(bullet_group, all_sprites)
@@ -82,6 +81,8 @@ class Bullet(pygame.sprite.Sprite):
                 self.rect = self.image.get_rect().move(pos_x - 13, pos_y + 10)
             if self.side == 'right':
                 self.rect = self.image.get_rect().move(pos_x + 13, pos_y + 10)
+
+# что происходит если пулька попадает в бетонку, кирпич, танчик или штаб
     def check_win(self):
         if pygame.sprite.spritecollideany(self, tiles_group):
             n = pygame.sprite.spritecollide(self, tiles_group, False)
@@ -101,12 +102,11 @@ class Bullet(pygame.sprite.Sprite):
                 self.side = None
                 self.rect.x = -105
                 self.rect.y = -105
+
     def check_tank(self, tank):
         if pygame.sprite.spritecollideany(self, player1_group) or pygame.sprite.spritecollideany(self, player2_group):
             tank.rect.x = tank.x_start
             tank.rect.y = tank.y_start
-
-
 
     def update(self):
         if self.side == 'up':
@@ -127,10 +127,6 @@ class Bullet(pygame.sprite.Sprite):
             self.rect.y = -105
 
 
-
-
-
-
 class Player_2(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__(player2_group, all_sprites)
@@ -142,8 +138,8 @@ class Player_2(pygame.sprite.Sprite):
             tile_width * pos_x + 3, tile_height * pos_y)
         self.x_start, self.y_start = tile_width * pos_x + 3, tile_height * pos_y
 
+# для движений и поворотов танчика2
     def move_player(self, keys, tiles_group):  # двигается по (-1, 0)
-
         if keys[pygame.K_a]:
             if self.rect.x >= 5:
                 if self.side == 'up':
@@ -212,8 +208,9 @@ class Player_1(pygame.sprite.Sprite):
         self.rect = self.image.get_rect().move(
             tile_width * pos_x + 3, tile_height * pos_y)
         self.x_start, self.y_start = tile_width * pos_x + 3, tile_height * pos_y
-    def move_player(self, keys, tiles_group):  # двигается по (-1, 0)
 
+# для движений и поворотов танчика1
+    def move_player(self, keys, tiles_group):  # двигается по (-1, 0)
         if keys[pygame.K_LEFT]:
             # keys[pygame.K_a]):
             if self.rect.x >= 5:
@@ -355,6 +352,7 @@ print(player2)
 bullet1 = Bullet(player1.rect.x, player1.rect.y, 1)
 bullet2 = Bullet(player2.rect.x, player2.rect.y, 2)
 
+
 # win_gold_image = load_image('win_gold.png')  # Загружаем изображение
 # win_silver_image = load_image('win_silver.png')  # Загружаем изображение
 # win_gold = Win(win_gold_image, 0, 0)  # Создаем спрайт win_gold
@@ -426,7 +424,6 @@ def start_screen():
             level += 1
         if level == 3:
             wins_group.draw(screen2)
-
 
         evil_group.update()
         bullet_group.update()
